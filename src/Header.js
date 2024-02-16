@@ -7,6 +7,7 @@ import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 import ChatIcon from '@mui/icons-material/Chat';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import Avatar from './Avatar.js';
 
 export default function Header() {
 	return (
@@ -18,18 +19,17 @@ export default function Header() {
 				/>
 				<div className='header_search'>
 					<SearchIcon />
-					<input type='text' />
+					<input type='text' placeholder='Search' />
 				</div>
 			</div>
 			<div className='header_right'>
-        <HeaderOption title='Home' Icon={HomeIcon} />
-        <HeaderOption title='My Network' Icon={SupervisorAccountIcon}/>
-        <HeaderOption title='Jobs' Icon={BusinessCenterIcon}/>
-        <HeaderOption title='Messaging' Icon={ChatIcon}/>
-        <HeaderOption title='Notifications' Icon={NotificationsIcon}/>
-        <HeaderOption title='Me' Icon={NotificationsIcon}/>
-
-      </div>
+				<HeaderOption title='Home' Icon={HomeIcon} />
+				<HeaderOption title='My Network' Icon={SupervisorAccountIcon} />
+				<HeaderOption title='Jobs' Icon={BusinessCenterIcon} />
+				<HeaderOption title='Messaging' Icon={ChatIcon} />
+				<HeaderOption title='Notifications' Icon={NotificationsIcon} />
+				<Avatar width={'25'} height={'25'} />
+			</div>
 		</div>
 	);
 }
