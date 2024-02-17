@@ -22,11 +22,11 @@ function Sidebar() {
 			<div className='sidebar_stats'>
 				<div className='sidebar_stat'>
 					<p>Profile viewers</p>
-					<p className='sidebar_statnumber'>1474</p>
+					<p className='sidebar_statNumber'>1474</p>
 				</div>
 				<div className='sidebar_stat'>
 					<p>Post impressions</p>
-					<p className='sidebar_statnumber'>5174</p>
+					<p className='sidebar_statNumber'>5174</p>
 				</div>
 			</div>
 			<div className='sidebar_bottom'>
