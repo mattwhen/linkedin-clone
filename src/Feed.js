@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Post from './Post';
 import CreateIcon from '@mui/icons-material/Create';
 import './Feed.css';
@@ -6,13 +6,69 @@ import InputOption from './InputOption';
 import ImageIcon from '@mui/icons-material/Image';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ArticleIcon from '@mui/icons-material/Article';
+import { db } from './firebase.js';
+
+import { collection, addDoc } from 'firebase/firestore'
+
+
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
+  const [input, setInput] = useState('');
 
+
+  useEffect(() => {
+	const addUserData = async () => {
+	  try {
+		const docRef = await addDoc(collection(db, "users"), {
+		  first: "Ada",
+		  last: "Lovelace",
+		  born: 1815, 
+		  message: input,
+		});
+		console.log("Document written with ID: ", docRef.id);
+	  } catch (e) {
+		console.error("Error adding document: ", e);
+	  }
+	};
+  
+	addUserData(); // Invoke the async function
+  }, []);
+  
+	
+
+	// useEffect(() => {
+	// 	// Connect to Firebase
+	// 	db.collection("posts").onSnapshot(snapshot => (
+	// 		setPosts(snapshot.docs.map((doc) => (
+	// 			{
+	// 				id: doc.id,
+	// 				data: doc.data(),
+	// 			}
+	// 		)))
+	// 	))
+	// }, [])
+
+		// Add to our database
+		const addUserData = async () => {
+			try {
+			  const docRef = await addDoc(collection(db, "users"), {
+				first: "Ada",
+				last: "Lovelace",
+				born: 1815,
+				message: input,
+			  });
+			  console.log("Document written with ID: ", docRef.id, docRef.message);
+			  
+			} catch (e) {
+			  console.error("Error adding document: ", e);
+			}
+		  };
 
 	const sendPost = (e) => {
 		e.preventDefault();
+		addUserData();
+		console.log("Doc added:");
 	}
 
 	return (
@@ -21,7 +77,7 @@ export default function Feed() {
 				<div className='feed_input'>
 					<CreateIcon />
 					<form>
-						<input type='text' />
+						<input type='text' value={input} onChange={e => setInput(e.target.value)} />
 						<button onClick={sendPost} type='submit'>Send</button>
 					</form>
 				</div>
