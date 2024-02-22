@@ -8,68 +8,52 @@ import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import ArticleIcon from '@mui/icons-material/Article';
 import { db } from './firebase.js';
 
-import { collection, addDoc } from 'firebase/firestore'
-
-
+// To create or overwrite a single document, use the following language-specific set() methods:
+import { collection, addDoc, getDocs, setDoc, doc } from 'firebase/firestore';
 
 export default function Feed() {
-  const [posts, setPosts] = useState([]);
-  const [input, setInput] = useState('');
+	const [posts, setPosts] = useState([]);
+	const [input, setInput] = useState('');
 
+	useEffect(() => {
+		
+	})
 
-  useEffect(() => {
+	// Add to our database
 	const addUserData = async () => {
-	  try {
-		const docRef = await addDoc(collection(db, "users"), {
-		  first: "Ada",
-		  last: "Lovelace",
-		  born: 1815, 
-		  message: input,
-		});
-		console.log("Document written with ID: ", docRef.id);
-	  } catch (e) {
-		console.error("Error adding document: ", e);
-	  }
-	};
-  
-	addUserData(); // Invoke the async function
-  }, []);
-  
-	
-
-	// useEffect(() => {
-	// 	// Connect to Firebase
-	// 	db.collection("posts").onSnapshot(snapshot => (
-	// 		setPosts(snapshot.docs.map((doc) => (
-	// 			{
-	// 				id: doc.id,
-	// 				data: doc.data(),
-	// 			}
-	// 		)))
-	// 	))
-	// }, [])
-
-		// Add to our database
-		const addUserData = async () => {
-			try {
-			  const docRef = await addDoc(collection(db, "users"), {
-				first: "Ada",
-				last: "Lovelace",
-				born: 1815,
+		try {
+			const docRef = await addDoc(collection(db, 'posts'), {
+				first: 'Matthew',
+				last: 'Nguyen',
+				born: 1995,
+				isAwesome: true,
 				message: input,
-			  });
-			  console.log("Document written with ID: ", docRef.id, docRef.message);
-			  
-			} catch (e) {
-			  console.error("Error adding document: ", e);
-			}
-		  };
+			});
+			console.log('Document written with ID: ', docRef.id, docRef.posts);
+			
+		} catch (e) {
+			console.error('Error adding document: ', e);
+		}
+	};
+
+	// Get Post data
+	const getPost = async() => {
+		const querySnapshot = await getDocs(collection(db, "posts"));
+		querySnapshot.forEach((doc) => doc.data().message);
+	}
+
+	getPost();
+
+
 
 	const sendPost = (e) => {
 		e.preventDefault();
+
 		addUserData();
-		console.log("Doc added:");
-	}
+		setInput('');
+		console.log('Doc added:');
+	};
+
 
 	return (
 		<div className='feed'>
@@ -77,8 +61,14 @@ export default function Feed() {
 				<div className='feed_input'>
 					<CreateIcon />
 					<form>
-						<input type='text' value={input} onChange={e => setInput(e.target.value)} />
-						<button onClick={sendPost} type='submit'>Send</button>
+						<input
+							type='text'
+							value={input}
+							onChange={(e) => setInput(e.target.value)}
+						/>
+						<button onClick={sendPost} type='submit'>
+							Send
+						</button>
 					</form>
 				</div>
 				<div className='feed_inputOptions'>
@@ -92,14 +82,7 @@ export default function Feed() {
 					/>
 				</div>
 			</div>
-			{posts.map((post) => (
-				<Post />
-			))}
-			<Post
-				name='Matthew Nguyen'
-				description='this is a test'
-				message='Wow this worked'
-			/>
+			
 		</div>
 	);
 }
